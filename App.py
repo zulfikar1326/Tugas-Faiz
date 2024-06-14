@@ -49,7 +49,13 @@ class Perpustakaan:
         return None
 
     def tampilkan_semua_buku(self):
-        return [buku.info_buku() for buku in self.daftar_buku]
+        return [{
+            "Judul": buku.judul,
+            "Penulis": buku.penulis,
+            "Tahun Terbit": buku.tahun_terbit,
+            "Status": buku.status,
+            "Tanggal Peminjaman": buku.tanggal_peminjaman
+        } for buku in self.daftar_buku]
 
     def pinjam_buku(self, judul):
         buku = self.cari_buku(judul)
@@ -204,8 +210,8 @@ elif selected == "Tampilkan Semua Buku":
     st.header("Daftar Semua Buku")
     semua_buku = perpustakaan.tampilkan_semua_buku()
     if semua_buku:
-        for info_buku in semua_buku:
-            st.write(info_buku)
+        df = pd.DataFrame(semua_buku)
+        st.table(df)
     else:
         st.write("Tidak ada buku yang ditemukan.")
 
